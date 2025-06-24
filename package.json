@@ -1,0 +1,23 @@
+{
+  "name": "automatize-com-grunt",
+  "version": "1.0.0",
+  "description": "\"# AutomatizeComGrunt\"",
+  "main": "index.js",
+  "scripts": {
+    "grunt": "grunt",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeoTatarin/AutomatizeComGrunt.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LeoTatarin/AutomatizeComGrunt/issues"
+  },
+  "homepage": "https://github.com/LeoTatarin/AutomatizeComGrunt#readme",
+  "devDependencies": {
+    "grunt": "^1.6.1"
+  }
+}
