@@ -25,6 +25,9 @@ module.exports = function(grunt){
                     'main2.css' : 'main.scss'
                 }
             }
+        },
+        concurrent: {
+            target: ['olaGrunt','less','sass','tarefaDemorada']
         }
     })
 
@@ -36,9 +39,17 @@ module.exports = function(grunt){
         }, 3000);
     })
 
+    grunt.registerTask('tarefaDemorada', function(){
+        const done = this.async();
+        setTimeout(function() {
+            console.log('Olá Grunt');
+            done();
+        }, 3000);
+    })
+
     grunt.loadNpmTasks('grunt-contrib-less');
-
     grunt.loadNpmTasks('grunt-contrib-sass');
+    grunt.loadNpmTasks('grunt-concurrent'); //plugin concurrent realiza tarefas em paralelo//
 
-    grunt.registerTask('default', ['less', 'sass']);
+    grunt.registerTask('default', ['concurrent']);
 }
