@@ -20,14 +20,71 @@ module.exports = function(grunt){
             less: {
                 files: ['src/styles/**/*.less'],
                 tasks: ['less:development'] //passa a rodar dentro do watch//
-,            }
-        }
+            },
+            html: {
+                files: ['src/index.html'],
+                tasks: ['replace:dev']
+            }
+        },
+        replace: {
+            dev: {
+                options: {
+                    patterns: [
+                        {
+                        match: 'ENDERECO_DO_CSS',
+                        replacement: './styles/main.css'
+                        }
+                    ]
+                },
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src:['src/index.html'],
+                        dest: 'dev/'
+                    }
+                ]
+            },
+            dist: {
+                options: {
+                    patterns: [
+                        {
+                        match: 'ENDERECO_DO_CSS',
+                        replacement: './styles/main.min.css'
+                        }
+                    ]
+                },
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src:['prebuild/index.html'],
+                        dest: 'dist/'
+                    }
+                ]
+            }
+        },
+        htmlmin: {
+            dist: {
+                options: {
+                    removeComments: true,
+                    collapseWhitespace: true
+                },
+                files: {
+                    'prebuild/index.html': 'src/index.html'
+                }
+            }
+        },
+        clean: ['prebuild']
 
     })
 
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-replace');
+    grunt.loadNpmTasks('grunt-contrib-htmlmin');//minifica html//
+    grunt.loadNpmTasks('grunt-contrib-clean'); //deleta arquivo temporario//
 
     grunt.registerTask('default',['watch']); //alterado para rodar o watch//
-    grunt.registerTask('build',['less:production']);
+    grunt.registerTask('build',['less:production','htmlmin:dist','replace:dist','clean']);
 }
