@@ -37,7 +37,7 @@ module.exports = function(grunt){
 
     grunt.loadNpmTasks('grunt-contrib-less');//carrega plugin do less//
     grunt.loadNpmTasks('grunt-contrib-uglify');//carrega plugin comprimir JS//
-    grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-clean');//carrega plugin remove comentarios do JS//
 
     grunt.registerTask('default',['less','clean','uglify']); //cria a task padrão que pode chamar multiplas tasks//
 }
