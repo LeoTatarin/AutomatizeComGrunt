@@ -1,85 +1,18 @@
 module.exports = function(grunt){
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        less: {
-            development: {
+        less: { //configurando grunt-contrib-less//
+            development: { //ambiente padrao// 
                 files: {
-                    'dev/styles/main.css': 'src/styles/main.less'
+                    'main.css' : 'main.less' // 'arquivo.destino' : arquivo.origem//
                 }
             },
-            production: {
-                options: {
-                    compress: true,
+            produtction: { //ambiente de produção, usuario do site//
+                options: { //minificação//
+                    compress: true,    
                 },
                 files: {
-                    'dist/styles/main.min.css': 'src/styles/main.less'
-                }
-            }
-        },
-        watch: {
-            less: {
-                files: ['src/styles/**/*.less'],
-                tasks: ['less:development'] //passa a rodar dentro do watch//
-            },
-            html: {
-                files: ['src/index.html'],
-                tasks: ['replace:dev']
-            }
-        },
-        replace: {
-            dev: {
-                options: {
-                    patterns: [
-                        {
-                        match: 'ENDERECO_DO_CSS',
-                        replacement: './styles/main.css'
-                        },
-                        {
-                        match: 'ENDERECO_DO_JS',
-                        replacement: '../src/scripts/main.js'
-                        }
-                    ]
-                },
-                files: [
-                    {
-                        expand: true,
-                        flatten: true,
-                        src:['src/index.html'],
-                        dest: 'dev/'
-                    }
-                ]
-            },
-            dist: {
-                options: {
-                    patterns: [
-                        {
-                        match: 'ENDERECO_DO_CSS',
-                        replacement: './styles/main.min.css'
-                        },
-                        {
-                        match: 'ENDERECO_DO_JS',
-                        replacement: './scripts/main.min.js'
-                        }
-                    ]
-                },
-                files: [
-                    {
-                        expand: true,
-                        flatten: true,
-                        src:['prebuild/index.html'],
-                        dest: 'dist/'
-                    }
-                ]
-            }
-        },
-        htmlmin: {
-            dist: {
-                options: {
-                    removeComments: true,
-                    collapseWhitespace: true
-                },
-                files: {
-                    'prebuild/index.html': 'src/index.html'
+                    'main.min.css' : 'main.less' //mesma coisa que em development so que minificado//
                 }
             }
         },
@@ -87,19 +20,24 @@ module.exports = function(grunt){
         uglify: {
             target: {
                 files: {
-                    'dist/scripts/main.min.js' : 'src/scripts/main.js'
+                    'main.min.js' : 'main.js'
                 }
             }
         }
     })
 
-    grunt.loadNpmTasks('grunt-contrib-less');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-replace');
-    grunt.loadNpmTasks('grunt-contrib-htmlmin');//minifica html//
-    grunt.loadNpmTasks('grunt-contrib-clean'); //deleta arquivo temporario//
-    grunt.loadNpmTasks('grunt-contrib-uglify');//comprime javaScript//
+    grunt.registerTask('olaGrunt',function(){ //cria a função a ser chamada//
+        const done = this.async();
+        setTimeout(function() { //gera delay de 3s//
+            console.log('Olá Grunt'); //escreve Olá Grunt no terminal//
+            done();
+        }, 3000);
+        
+    })
 
-    grunt.registerTask('default',['watch']); //alterado para rodar o watch//
-    grunt.registerTask('build',['less:production','htmlmin:dist','replace:dist','clean','uglify']);
+    grunt.loadNpmTasks('grunt-contrib-less');//carrega plugin do less//
+    grunt.loadNpmTasks('grunt-contrib-uglify');//carrega plugin comprimir JS//
+    grunt.loadNpmTasks('grunt-contrib-clean');
+
+    grunt.registerTask('default',['less','clean','uglify']); //cria a task padrão que pode chamar multiplas tasks//
 }
